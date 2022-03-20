@@ -1,0 +1,62 @@
+package net.realmidc.niuzi.command.impl
+
+import net.mamoe.mirai.contact.Group
+import net.mamoe.mirai.contact.Member
+import net.realmidc.niuzi.PluginMain
+import net.realmidc.niuzi.command.SubCommand
+import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.util.Locale.sendLang
+import net.realmidc.niuzi.util.checkNumber
+import net.realmidc.niuzi.util.getAt
+import net.realmidc.niuzi.util.randomDouble
+
+class AdminCommand : SubCommand {
+
+    override suspend fun execute(sender: Member, group: Group, args: List<String>) {
+        if (PluginMain.admins.contains(sender.id)) {
+            if (args.isNotEmpty()) {
+                val cmd0 = args[0]
+                val temp0 = args.drop(1)
+                when (cmd0) {
+                    "牛子系统" -> {
+                        if (temp0.isNotEmpty()) {
+                            val cmd1 = temp0[0]
+                            val temp1 = temp0.drop(1)
+                            when (cmd1) {
+                                "更改长度" -> {
+                                    if (temp1.isEmpty()) {
+                                        group.sendLang("Admin.Change.NoArgs")
+                                        return
+                                    }
+                                    if (temp1.size == 1) {
+                                        group.sendLang("Admin.Change.NoLength")
+                                        return
+                                    }
+                                    if (temp1.size == 2) {
+                                        val target = getAt(group, temp1[0], true)
+                                        if (target != -1L) {
+                                            val length = temp1[1]
+                                            if (length == "随机长度") {
+                                                Dao.setLength(target, randomDouble(10))
+                                                group.sendLang("Success")
+                                            } else {
+                                                if (checkNumber(group, length)) {
+                                                    Dao.setLength(target, length.toDouble())
+                                                    group.sendLang("Success")
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            group.sendLang("NoPerm")
+            return
+        }
+    }
+
+}

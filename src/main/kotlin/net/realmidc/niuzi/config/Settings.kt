@@ -16,5 +16,6 @@ object Settings : AutoSavePluginConfig("settings") {
     val databaseName: String by value("laoshu")
     val databaseUser: String by value("laoshu")
     val databasePassword: String by value("password")
+    val cumEnable: Boolean by value(false)
 
 }
