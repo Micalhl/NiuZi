@@ -17,7 +17,7 @@ import net.realmidc.niuzi.util.Locale
 object PluginMain : KotlinPlugin(
     JvmPluginDescription(
         id = "net.realmidc.niuzi",
-        version = "1.0-SNAPSHOT"
+        version = "1.1-SNAPSHOT"
     ) {
         name("NiuZi")
         author("Mical")
