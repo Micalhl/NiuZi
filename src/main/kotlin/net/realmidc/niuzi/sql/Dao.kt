@@ -97,31 +97,34 @@ object Dao {
     }
 
     fun hasLover(qq: Long): Boolean {
-        return HikariCP.query(
+        val list1: Boolean = HikariCP.query(
             PluginMain,
             "SELECT * FROM `lovers_data` WHERE `qq` = $qq",
             { resultSet ->
                 try {
-                    resultSet.next()
+                    return@query resultSet.next()
                 } catch (exception: SQLException) {
                     PluginMain.logger.error("执行 MySQL 语句 时遇到错误($exception).", exception)
                 }
-                false
-            },
-            null
-        ) ?: HikariCP.query(
-            PluginMain,
-            "SELECT * FROM `lovers_data` WHERE `target` = $qq",
-            { resultSet ->
-                try {
-                    resultSet.next()
-                } catch (exception: SQLException) {
-                    PluginMain.logger.error("执行 MySQL 语句 时遇到错误($exception).", exception)
-                }
-                false
+                return@query false
             },
             null
         ) ?: false
+        return if (list1) true else {
+            return HikariCP.query(
+                PluginMain,
+                "SELECT * FROM `lovers_data` WHERE `target` = $qq",
+                { resultSet ->
+                    try {
+                        return@query resultSet.next()
+                    } catch (exception: SQLException) {
+                        PluginMain.logger.error("执行 MySQL 语句 时遇到错误($exception).", exception)
+                    }
+                    return@query false
+                },
+                null
+            ) ?: false
+        }
     }
 
     fun love(qq: Long, target: Long) {
@@ -152,39 +155,38 @@ object Dao {
     }
 
     fun getLover(qq: Long): Long {
-        return HikariCP.query(
+        val list1: Long = HikariCP.query(
             PluginMain,
             "SELECT * FROM `lovers_data` WHERE `qq` = $qq",
             { resultSet ->
                 try {
                     if (resultSet.next()) {
-                        resultSet.getLong(2)
-                    } else {
-                        return@query -1L
+                        return@query resultSet.getLong(2)
                     }
                 } catch (exception: SQLException) {
                     PluginMain.logger.error("执行 MySQL 语句 时遇到错误($exception).", exception)
                 }
-                -1L
-            },
-            null
-        ) ?: HikariCP.query(
-            PluginMain,
-            "SELECT * FROM `lovers_data` WHERE `target` = $qq",
-            { resultSet ->
-                try {
-                    if (resultSet.next()) {
-                        resultSet.getLong(2)
-                    } else {
-                        return@query -1L
-                    }
-                } catch (exception: SQLException) {
-                    PluginMain.logger.error("执行 MySQL 语句 时遇到错误($exception).", exception)
-                }
-                -1L
+                return@query -1L
             },
             null
         ) ?: -1L
+        return if (list1 != -1L) list1 else {
+            return HikariCP.query(
+                PluginMain,
+                "SELECT * FROM `lovers_data` WHERE `target` = $qq",
+                { resultSet ->
+                    try {
+                        if (resultSet.next()) {
+                            return@query resultSet.getLong(1)
+                        }
+                    } catch (exception: SQLException) {
+                        PluginMain.logger.error("执行 MySQL 语句 时遇到错误($exception).", exception)
+                    }
+                    return@query -1L
+                },
+                null
+            ) ?: -1L
+        }
     }
 
 }

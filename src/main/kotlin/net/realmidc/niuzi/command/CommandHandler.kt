@@ -20,7 +20,7 @@ object CommandHandler {
         registerCommands("搞对象", LoveRequestCommand())
         registerCommands("贴贴！", DoiCommand())
         registerCommands("处理请求", RequestCommand())
-        registerCommands("分手", LeaveCommand())
+        registerCommands("我要分手", LeaveCommand())
 
         PluginMain.globalEventChannel().subscribeGroupMessages {
             startsWith("", removePrefix = true) {
