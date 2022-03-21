@@ -3,12 +3,10 @@ package net.realmidc.niuzi
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.realmidc.niuzi.command.CommandHandler
-import net.realmidc.niuzi.data.CumData
-import net.realmidc.niuzi.data.HongZhongData
 import net.realmidc.niuzi.config.Settings
+import net.realmidc.niuzi.data.TDataManager
 import net.realmidc.niuzi.sql.Dao
 import net.realmidc.niuzi.util.AutoRefresher
-import net.realmidc.niuzi.util.Locale
 
 /**
  * @author Ting
@@ -25,7 +23,8 @@ object PluginMain : KotlinPlugin(
 ) {
 
     val admins = arrayListOf(
-        3332366064L
+        3332366064L, //hl
+        2078008763L //xwx
     )
 
     override fun onEnable() {
@@ -37,17 +36,14 @@ object PluginMain : KotlinPlugin(
             return
         }
         Dao.connect()
-        HongZhongData.load()
-        CumData.load()
+        TDataManager.init()
         CommandHandler.init()
         AutoRefresher
         logger.info("达达没牛子")
-        println(Locale.file)
     }
 
     override fun onDisable() {
-        HongZhongData.save()
-        CumData.save()
+        TDataManager.disable()
         logger.info("达达牛子被吃了")
     }
 

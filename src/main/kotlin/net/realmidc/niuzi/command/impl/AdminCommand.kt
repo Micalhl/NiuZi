@@ -2,6 +2,7 @@ package net.realmidc.niuzi.command.impl
 
 import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.contact.Member
+import net.mamoe.mirai.contact.getMember
 import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.command.SubCommand
 import net.realmidc.niuzi.sql.Dao
@@ -23,6 +24,18 @@ class AdminCommand : SubCommand {
                             val cmd1 = temp0[0]
                             val temp1 = temp0.drop(1)
                             when (cmd1) {
+                                "查看牛子" -> {
+                                    if (temp1.isEmpty()) {
+                                        group.sendLang("Admin.View.NoArgs")
+                                        return
+                                    }
+                                    if (temp1.size == 1) {
+                                        val target = getAt(group, temp1[0], true)
+                                        if (target != -1L) {
+                                            StatusCommand.get(group, group.getMember(target)!!)
+                                        }
+                                    }
+                                }
                                 "更改长度" -> {
                                     if (temp1.isEmpty()) {
                                         group.sendLang("Admin.Change.NoArgs")

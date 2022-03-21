@@ -14,7 +14,7 @@ class GetCommand : SubCommand {
             return
         }
         Dao.create(sender)
-        group.sendLang("Get.Succes")
+        group.sendLang("Get.Success")
     }
 
 }

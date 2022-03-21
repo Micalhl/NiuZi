@@ -1,7 +1,7 @@
 package net.realmidc.niuzi.util
 
-import net.realmidc.niuzi.data.CumData
-import net.realmidc.niuzi.data.HongZhongData
+import net.realmidc.niuzi.PluginMain
+import net.realmidc.niuzi.data.TempStorage
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -10,23 +10,32 @@ object AutoRefresher {
     init {
         Timer().schedule(0L, 20L) {
             val delete = arrayListOf<Long>()
-            HongZhongData.dataMap.forEach { (qq, time) ->
+            TempStorage.hongzhongdata.forEach { (qq, time) ->
                 if (System.currentTimeMillis() >= time) {
                     delete.add(qq)
                 }
             }
-            delete.forEach { HongZhongData.dataMap.remove(it) }
+            delete.forEach { TempStorage.hongzhongdata.remove(it) }
         }
         Timer().schedule(0L, 20L) {
             val delete = arrayListOf<Long>()
-            CumData.dataMap.forEach { (qq, time) ->
+            TempStorage.cumdata.forEach { (qq, time) ->
                 if (System.currentTimeMillis() >= time) {
                     delete.add(qq)
                 }
             }
-            delete.forEach { CumData.dataMap.remove(it) }
+            delete.forEach { TempStorage.cumdata.remove(it) }
         }
-        println("已注册计时器")
+        Timer().schedule(0L, 20L) {
+            val delete = arrayListOf<Long>()
+            TempStorage.doidata.forEach { (qq, time) ->
+                if (System.currentTimeMillis() >= time) {
+                    delete.add(qq)
+                }
+            }
+            delete.forEach { TempStorage.doidata.remove(it) }
+        }
+        PluginMain.logger.info("已注册计时器")
     }
 
 }

@@ -1,32 +1,26 @@
 package net.realmidc.niuzi.command.impl
 
-import net.mamoe.mirai.contact.Group
-import net.mamoe.mirai.contact.Member
-import net.mamoe.mirai.contact.nameCardOrNick
+import net.mamoe.mirai.contact.*
 import net.realmidc.niuzi.command.SubCommand
 import net.realmidc.niuzi.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 
-class StatusCommand : SubCommand {
+class LoverCommand : SubCommand {
 
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
-        get(group, sender)
-    }
-
-    companion object {
-        suspend fun get(group: Group, member: Member) {
-            val niuzi = Dao.getByQQ(member.id)
-            if (niuzi == null) {
-                group.sendLang("Status.NoNiuZi")
-                return
-            }
-            group.sendLang("Status.Status") {
+        if (Dao.hasLover(sender.id)) {
+            val lover = Dao.getLover(sender.id)
+            val member = group.getMember(lover) ?: group.bot.getStranger(lover)!!
+            val niuzi = Dao.getByQQ(lover)!!
+            group.sendLang("Lover.Status") {
                 it?.replace("{0}", member.nameCardOrNick)
                     ?.replace("{1}", member.id.toString())
                     ?.replace("{2}", niuzi.name)
                     ?.replace("{3}", niuzi.sex.toChinese())
                     ?.replace("{4}", niuzi.length.toString())
             }
+        } else {
+            group.sendLang("Lover.NoLover")
         }
     }
 

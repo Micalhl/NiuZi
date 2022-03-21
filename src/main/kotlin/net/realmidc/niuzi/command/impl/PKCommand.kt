@@ -5,8 +5,8 @@ import net.mamoe.mirai.contact.Member
 import net.mamoe.mirai.contact.getMember
 import net.mamoe.mirai.contact.nameCardOrNick
 import net.realmidc.niuzi.command.SubCommand
-import net.realmidc.niuzi.data.HongZhongData
 import net.realmidc.niuzi.config.Settings
+import net.realmidc.niuzi.data.TempStorage
 import net.realmidc.niuzi.sql.Dao
 import net.realmidc.niuzi.util.*
 import net.realmidc.niuzi.util.Locale.sendLang
@@ -34,32 +34,48 @@ class PKCommand : SubCommand {
                 val delta = randomDouble(10)
                 val source = Dao.getByQQ(sender.id)!!
                 val target = Dao.getByQQ(targetQQ)!!
-                if (HongZhongData.dataMap.containsKey(sender.id)) {
-                    val time = HongZhongData.dataMap[sender.id]!!
+                if (TempStorage.hongzhongdata.containsKey(sender.id)) {
+                    val time = TempStorage.hongzhongdata[sender.id]!!
                     val now = System.currentTimeMillis()
                     val minute = timeToMinute(time - now)
-                    group.sendLang("PK.SourceInCD", minute)
+                    group.sendLang("PK.SourceInCD") {
+                        it?.replace("{0}", minute.toString())
+                    }
                     return
                 }
-                if (HongZhongData.dataMap.containsKey(targetQQ)) {
-                    val time = HongZhongData.dataMap[targetQQ]!!
+                if (TempStorage.hongzhongdata.containsKey(targetQQ)) {
+                    val time = TempStorage.hongzhongdata[targetQQ]!!
                     val now = System.currentTimeMillis()
                     val minute = timeToMinute(time - now)
-                    group.sendLang("PK.TargetInCD", minute)
+                    group.sendLang("PK.TargetInCD") {
+                        it?.replace("{0}", minute.toString())
+                    }
                     return
                 }
-                HongZhongData.dataMap[sender.id] = System.currentTimeMillis() + (Settings.pkCd * 1000)
-                HongZhongData.dataMap[targetQQ] = System.currentTimeMillis() + (Settings.pkCd * 1000)
+                TempStorage.hongzhongdata[sender.id] = System.currentTimeMillis() + (Settings.pkCd * 1000)
+                TempStorage.hongzhongdata[targetQQ] = System.currentTimeMillis() + (Settings.pkCd * 1000)
                 val success = Random.nextInt(101)
                 if (success < 40) {
                     pk(source, target, delta, false)
-                    group.sendLang("PK.Lost", sender.nameCardOrNick, targetMember.nameCardOrNick, delta)
+                    group.sendLang("PK.Lost") {
+                        it?.replace("{0}", sender.nameCardOrNick)
+                            ?.replace("{1}", targetMember.nameCardOrNick)
+                            ?.replace("{2}", delta.toString())
+                    }
                 } else if (success > 60) {
                     pk(source, target, delta, true)
-                    group.sendLang("PK.Win", sender.nameCardOrNick, targetMember.nameCardOrNick, delta)
+                    group.sendLang("PK.Win") {
+                        it?.replace("{0}", sender.nameCardOrNick)
+                            ?.replace("{1}", targetMember.nameCardOrNick)
+                            ?.replace("{2}", delta.toString())
+                    }
                 } else {
                     pk(source, target, delta)
-                    group.sendLang("PK.BothLost", sender.nameCardOrNick, targetMember.nameCardOrNick, delta)
+                    group.sendLang("PK.BothLost") {
+                        it?.replace("{0}", sender.nameCardOrNick)
+                            ?.replace("{1}", targetMember.nameCardOrNick)
+                            ?.replace("{2}", delta.toString())
+                    }
                 }
             }
         }
