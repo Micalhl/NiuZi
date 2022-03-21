@@ -22,6 +22,10 @@ class LoveRequestCommand : SubCommand {
             if (args.isNotEmpty()) {
                 val target = getAt(group, args[0], true)
                 if (target != -1L) {
+                    if (target == sender.id) {
+                        group.sendLang("Lover.Get.Self")
+                        return
+                    }
                     if (Dao.hasLover(target)) {
                         group.sendLang("Lover.Get.Fail")
                         return
