@@ -13,6 +13,12 @@ import net.realmidc.niuzi.util.hasNiuZi
 
 class LoveRequestCommand : SubCommand {
 
+    override fun describe(): String = "和别人搞对象"
+
+    override fun usage(): String = "[@对方]"
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (hasNiuZi(group, sender.id)) {
             if (Dao.hasLover(sender.id)) {

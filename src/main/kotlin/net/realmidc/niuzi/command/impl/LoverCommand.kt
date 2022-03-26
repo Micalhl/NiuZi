@@ -7,6 +7,12 @@ import net.realmidc.niuzi.util.Locale.sendLang
 
 class LoverCommand : SubCommand {
 
+    override fun describe(): String = "查看你的对象的牛子信息"
+
+    override fun usage(): String? = null
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (Dao.hasLover(sender.id)) {
             val lover = Dao.getLover(sender.id)

@@ -13,6 +13,12 @@ import net.realmidc.niuzi.util.randomDouble
 
 class AdminCommand : SubCommand {
 
+    override fun describe(): String = "管理员命令"
+
+    override fun usage(): String? = null
+
+    override fun needPerm(): Boolean = true
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (PluginMain.admins.contains(sender.id)) {
             if (args.isNotEmpty()) {

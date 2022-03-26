@@ -12,6 +12,12 @@ import net.realmidc.niuzi.util.timeToMinute
 
 class DoiCommand : SubCommand {
 
+    override fun describe(): String = "和对象贴贴！"
+
+    override fun usage(): String? = null
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (!Dao.hasLover(sender.id)) {
             group.sendLang("Lover.Doi.NoLover")

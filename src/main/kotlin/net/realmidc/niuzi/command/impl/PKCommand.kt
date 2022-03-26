@@ -14,6 +14,12 @@ import kotlin.random.Random
 
 class PKCommand : SubCommand {
 
+    override fun describe(): String = "比划一下，赢加长度输减长度，断掉双方都减长度"
+
+    override fun usage(): String = "[@对方]"
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (hasNiuZi(group, sender.id)) {
             if (args.isEmpty()) {

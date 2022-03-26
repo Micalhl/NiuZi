@@ -42,7 +42,6 @@ object Dao {
      * @param member 群成员
      */
     fun create(member: Member) {
-        val name = member.nameCard + "的牛子"
         val qq = member.id
         val random = Random().nextInt(10).toDouble()
         val length = Random().nextDouble() + random
@@ -50,7 +49,7 @@ object Dao {
         //final Sex sex = temp == 0 ? Sex.MALE : Sex.FEMALE;
         HikariCP.execute(
             PluginMain,
-            "INSERT INTO niuzi_data (qq,name,length,sex,level,points) VALUE($qq,'$name',$length,$temp,0,0);",
+            "INSERT INTO niuzi_data (qq,name,length,sex,level,points) VALUE($qq,'牛子',$length,$temp,0,0);",
             null
         )
     }

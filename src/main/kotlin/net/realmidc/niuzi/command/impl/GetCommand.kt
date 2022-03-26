@@ -8,6 +8,12 @@ import net.realmidc.niuzi.util.Locale.sendLang
 
 class GetCommand : SubCommand {
 
+    override fun describe(): String = "领养一只牛子"
+
+    override fun usage(): String? = null
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (Dao.getByQQ(sender.id) != null) {
             group.sendLang("Get.HasNiuZi")

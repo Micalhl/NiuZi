@@ -4,6 +4,7 @@ import net.mamoe.mirai.event.globalEventChannel
 import net.mamoe.mirai.event.subscribeGroupMessages
 import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.command.impl.*
+import net.realmidc.niuzi.util.Locale
 
 object CommandHandler {
 
@@ -27,6 +28,23 @@ object CommandHandler {
                 val command = it.split(" ")
                 val root = command[0]
                 val args = command.drop(1)
+                if (root == "牛子系统") {
+                    val builder = StringBuilder()
+                    builder.append(Locale.getLang("CommandHeader") + "\n")
+                    commands.forEach { (name, executor) ->
+                        if (executor.needPerm()) {
+                            if (!PluginMain.admins.contains(sender.id)) {
+                                return@forEach
+                            }
+                        }
+                        builder.append(Locale.getLang("CommandHelper") { str ->
+                            str?.replace("{0}", name)
+                                ?.replace("{1}", executor.usage() ?: "")
+                                ?.replace("{2}", executor.describe() ?: "")
+                        } + "\n")
+                    }
+                    group.sendMessage(builder.toString())
+                }
                 commands.forEach { (name, executor) -> if (root == name) executor.execute(sender, group, args) }
             }
         }

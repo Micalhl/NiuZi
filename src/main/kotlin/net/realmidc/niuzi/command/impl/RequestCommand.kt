@@ -12,6 +12,12 @@ import net.realmidc.niuzi.util.Locale.sendLang
 // FIXME: 下次优化一下代码，重复的地方好像有点多
 class RequestCommand : SubCommand {
 
+    override fun describe(): String = "管理你的请求"
+
+    override fun usage(): String = "[搞对象/分手] [同意/不同意]"
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (args.size == 2) {
             when (args[0]) {

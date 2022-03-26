@@ -12,6 +12,12 @@ import net.realmidc.niuzi.util.randomDouble
 
 class CumCommand : SubCommand {
 
+    override fun describe(): String = "爽一下，随机增加长度"
+
+    override fun usage(): String? = null
+
+    override fun needPerm(): Boolean = false
+
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
         if (Settings.cumEnable) {
             if (hasNiuZi(group, sender.id)) {
