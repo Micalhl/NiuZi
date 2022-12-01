@@ -1,5 +1,6 @@
 package net.realmidc.niuzi
 
+import net.mamoe.mirai.console.permission.PermissionService
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.realmidc.niuzi.command.CommandHandler
@@ -22,10 +23,12 @@ object PluginMain : KotlinPlugin(
     }
 ) {
 
-    val admins = arrayListOf(
-        3332366064L, //hl
-        2078008763L //xwx
-    )
+    val PERMISSION_ADMIN by lazy {
+        PermissionService.INSTANCE.register(
+            permissionId("net.realmidc.niuzi.admin"),
+            "NiuZi 管理员权限"
+        )
+    }
 
     override fun onEnable() {
         Settings.reload()

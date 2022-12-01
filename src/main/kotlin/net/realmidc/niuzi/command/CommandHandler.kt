@@ -1,10 +1,13 @@
 package net.realmidc.niuzi.command
 
+import net.mamoe.mirai.console.command.CommandSender.Companion.asCommandSender
+import net.mamoe.mirai.console.command.CommandSender.Companion.asMemberCommandSender
 import net.mamoe.mirai.event.globalEventChannel
 import net.mamoe.mirai.event.subscribeGroupMessages
 import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.command.impl.*
 import net.realmidc.niuzi.util.Locale
+import net.realmidc.niuzi.util.permitted
 
 object CommandHandler {
 
@@ -14,7 +17,7 @@ object CommandHandler {
         registerCommands("领养牛子", GetCommand())
         registerCommands("我的牛子", StatusCommand())
         registerCommands("改牛子名", NameCommand())
-        registerCommands("爽一下", CumCommand())
+        // registerCommands("爽一下", CumCommand())
         registerCommands("比划比划", PKCommand())
         registerCommands("管理命令", AdminCommand())
         registerCommands("我的对象", LoverCommand())
@@ -22,6 +25,7 @@ object CommandHandler {
         registerCommands("贴贴！", DoiCommand())
         registerCommands("处理请求", RequestCommand())
         registerCommands("我要分手", LeaveCommand())
+        registerCommands("群牛子排行", TopCommand())
 
         PluginMain.globalEventChannel().subscribeGroupMessages {
             startsWith("", removePrefix = true) {
@@ -33,7 +37,7 @@ object CommandHandler {
                     builder.append(Locale.getLang("CommandHeader") + "\n")
                     commands.forEach { (name, executor) ->
                         if (executor.needPerm()) {
-                            if (!PluginMain.admins.contains(sender.id)) {
+                            if (!sender.asMemberCommandSender().permitted()) {
                                 return@forEach
                             }
                         }

@@ -1,6 +1,9 @@
 package net.realmidc.niuzi.util
 
+import net.mamoe.mirai.console.command.CommandSender
+import net.mamoe.mirai.console.permission.PermissionService.Companion.hasPermission
 import net.mamoe.mirai.contact.Group
+import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.entity.NiuZi
 import net.realmidc.niuzi.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
@@ -68,4 +71,13 @@ fun pk(source: NiuZi, target: NiuZi, delta: Double, win: Boolean) {
 fun pk(source: NiuZi, target: NiuZi, delta: Double) {
     Dao.setLength(source.owner, source.length - delta)
     Dao.setLength(target.owner, target.length - delta)
+}
+
+suspend fun CommandSender.permitted(): Boolean {
+    return hasPermission(PluginMain.PERMISSION_ADMIN).also {
+        if (it) {
+            return@also
+        }
+        sendMessage("I'm sorry, but you do not have permission to perform this command. Please contact the server administrators if you believe that this is in error.")
+    }
 }

@@ -1,5 +1,6 @@
 package net.realmidc.niuzi.sql
 
+import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.contact.Member
 import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.config.Settings.databaseAddress
@@ -77,6 +78,31 @@ object Dao {
             },
             null
         )
+    }
+
+    fun getAll(group: Group): List<NiuZi> {
+        val result = arrayListOf<NiuZi>()
+        HikariCP.query(
+            PluginMain,
+            "SELECT * FROM `niuzi_data`",
+            { resultSet ->
+                if (resultSet.next()) {
+                    do {
+                        val qq = resultSet.getLong(1)
+                        val name = resultSet.getString(2)
+                        val length = resultSet.getDouble(3)
+                        val temp = resultSet.getInt(4)
+                        val sex =
+                            if (temp == 0) Sex.MALE else Sex.FEMALE
+                        val level = resultSet.getInt(5)
+                        val points = resultSet.getInt(6)
+                        result.add(NiuZi(qq, name, length, sex, level, points))
+                    } while (resultSet.next())
+                }
+            },
+            null
+        )
+        return result.filter { group.members.map { it.id }.contains(it.owner) }.sortedBy { it.length }.reversed()
     }
 
     fun changeName(qq: Long, name: String) {

@@ -1,5 +1,6 @@
 package net.realmidc.niuzi.command.impl
 
+import net.mamoe.mirai.console.command.CommandSender.Companion.asMemberCommandSender
 import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.contact.Member
 import net.mamoe.mirai.contact.getMember
@@ -9,6 +10,7 @@ import net.realmidc.niuzi.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 import net.realmidc.niuzi.util.checkNumber
 import net.realmidc.niuzi.util.getAt
+import net.realmidc.niuzi.util.permitted
 import net.realmidc.niuzi.util.randomDouble
 
 class AdminCommand : SubCommand {
@@ -20,7 +22,7 @@ class AdminCommand : SubCommand {
     override fun needPerm(): Boolean = true
 
     override suspend fun execute(sender: Member, group: Group, args: List<String>) {
-        if (PluginMain.admins.contains(sender.id)) {
+        if (sender.asMemberCommandSender().permitted()) {
             if (args.isNotEmpty()) {
                 val cmd0 = args[0]
                 val temp0 = args.drop(1)
@@ -72,9 +74,6 @@ class AdminCommand : SubCommand {
                     }
                 }
             }
-        } else {
-            group.sendLang("NoPerm")
-            return
         }
     }
 
