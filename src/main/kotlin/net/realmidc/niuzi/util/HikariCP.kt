@@ -25,7 +25,12 @@ object HikariCP {
         username: String?, password: String?
     ) {
         val config = HikariConfig()
-        config.driverClassName = "com.mysql.jdbc.Driver"
+        // 2022-12-12 20:44 记录一下发烧38.7℃，实在不想排查原因了，先用脑瘫办法尝试解决一下，回来再看。
+        config.driverClassName = try {
+            "com.mysql.jdbc.Driver"
+        } catch (e: Throwable) {
+            "com.mysql.jc.jdbc.Driver"
+        }
         config.connectionTimeout = 30000
         config.minimumIdle = 10
         config.maximumPoolSize = 50
