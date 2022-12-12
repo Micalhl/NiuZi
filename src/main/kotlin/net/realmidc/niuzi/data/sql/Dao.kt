@@ -1,13 +1,12 @@
-package net.realmidc.niuzi.sql
+package net.realmidc.niuzi.data.sql
 
 import net.mamoe.mirai.contact.Group
-import net.mamoe.mirai.contact.Member
 import net.realmidc.niuzi.PluginMain
-import net.realmidc.niuzi.config.Settings.databaseAddress
-import net.realmidc.niuzi.config.Settings.databaseName
-import net.realmidc.niuzi.config.Settings.databasePassword
-import net.realmidc.niuzi.config.Settings.databasePort
-import net.realmidc.niuzi.config.Settings.databaseUser
+import net.realmidc.niuzi.ConfigReader.databaseAddress
+import net.realmidc.niuzi.ConfigReader.databaseName
+import net.realmidc.niuzi.ConfigReader.databasePassword
+import net.realmidc.niuzi.ConfigReader.databasePort
+import net.realmidc.niuzi.ConfigReader.databaseUser
 import net.realmidc.niuzi.entity.NiuZi
 import net.realmidc.niuzi.enums.Sex
 import net.realmidc.niuzi.util.HikariCP
@@ -42,12 +41,10 @@ object Dao {
      *
      * @param member 群成员
      */
-    fun create(member: Member) {
-        val qq = member.id
+    fun create(qq: Long) {
         val random = Random().nextInt(10).toDouble()
         val length = Random().nextDouble() + random
         val temp = Random().nextInt(2)
-        //final Sex sex = temp == 0 ? Sex.MALE : Sex.FEMALE;
         HikariCP.execute(
             PluginMain,
             "INSERT INTO niuzi_data (qq,name,length,sex,level,points) VALUE($qq,'牛子',$length,$temp,0,0);",
@@ -103,6 +100,14 @@ object Dao {
             null
         )
         return result.filter { group.members.map { it.id }.contains(it.owner) }.sortedBy { it.length }.reversed()
+    }
+
+    fun changeSex(qq: Long, sex: Sex) {
+        HikariCP.execute(
+            PluginMain,
+            "UPDATE `niuzi_data` SET `sex` = '${if (sex == Sex.MALE) 0 else 1}' WHERE `qq` = $qq",
+            null
+        )
     }
 
     fun changeName(qq: Long, name: String) {
@@ -213,5 +218,4 @@ object Dao {
             ) ?: -1L
         }
     }
-
 }

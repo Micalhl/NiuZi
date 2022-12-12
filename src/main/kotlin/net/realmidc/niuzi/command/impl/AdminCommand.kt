@@ -4,15 +4,15 @@ import net.mamoe.mirai.console.command.CommandSender.Companion.asMemberCommandSe
 import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.contact.Member
 import net.mamoe.mirai.contact.getMember
-import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.command.SubCommand
-import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.data.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 import net.realmidc.niuzi.util.checkNumber
 import net.realmidc.niuzi.util.getAt
 import net.realmidc.niuzi.util.permitted
 import net.realmidc.niuzi.util.randomDouble
 
+@Deprecated("等待重构")
 class AdminCommand : SubCommand {
 
     override fun describe(): String = "管理员命令"
@@ -76,5 +76,4 @@ class AdminCommand : SubCommand {
             }
         }
     }
-
 }

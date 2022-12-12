@@ -4,9 +4,8 @@ import net.mamoe.mirai.console.permission.PermissionService
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
 import net.realmidc.niuzi.command.CommandHandler
-import net.realmidc.niuzi.config.Settings
 import net.realmidc.niuzi.data.TDataManager
-import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.data.sql.Dao
 import net.realmidc.niuzi.util.AutoRefresher
 
 /**
@@ -31,8 +30,8 @@ object PluginMain : KotlinPlugin(
     }
 
     override fun onEnable() {
-        Settings.reload()
-        if (Settings.firstEnable) {
+        ConfigReader.reload()
+        if (ConfigReader.firstEnable) {
             for (i in 1..5) {
                 logger.warning("检测到你第一次运行插件，请去配置文件修改数据库信息，并把 firstEnable 改为 false。插件将不会继续加载")
             }

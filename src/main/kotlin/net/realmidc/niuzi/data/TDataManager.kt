@@ -5,7 +5,6 @@ import net.realmidc.niuzi.data.impl.*
 object TDataManager {
 
     private val DATAS = listOf(
-        CumData(),
         HongZhongData(),
         DoiData(),
         LeaveData(),

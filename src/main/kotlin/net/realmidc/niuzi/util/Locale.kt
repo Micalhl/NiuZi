@@ -24,29 +24,19 @@ object Locale {
 
     private val config = YamlConfiguration.loadConfiguration(file)
 
-    fun getLang(path: String, args: Function<String?, String?>? = null): String {
+    fun getLang(path: String, vararg args: Any): String {
         if (config.contains(path)) {
             return if (config.isList(path)) {
-                // FIXME: 因为 MessageFormat#format 出现魔幻问题，所以曲线救国想了另外一个方法
-                val result = config.getStringList(path).joinToString("\n")
-                if (args != null) {
-                    args.apply(result)!!
-                } else {
-                    result
-                }
+                config.getStringList(path).joinToString("\n").replaceWithOrder(*args)
             } else {
-                if (args != null) {
-                    args.apply(config.getString(path))!!
-                } else {
-                    config.getString(path)!!
-                }
+                config.getString(path)!!.replaceWithOrder(*args)
             }
         }
         return ""
     }
 
-    suspend fun Group.sendLang(path: String, args: Function<String?, String?>? = null) {
-        sendMessage(getLang(path, args))
+    suspend fun Group.sendLang(path: String, vararg args: Any) {
+        sendMessage(getLang(path, *args))
     }
 
 }

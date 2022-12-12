@@ -5,7 +5,7 @@ import net.mamoe.mirai.console.permission.PermissionService.Companion.hasPermiss
 import net.mamoe.mirai.contact.Group
 import net.realmidc.niuzi.PluginMain
 import net.realmidc.niuzi.entity.NiuZi
-import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.data.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 import java.util.*
 

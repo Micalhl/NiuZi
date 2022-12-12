@@ -1,4 +1,4 @@
-package net.realmidc.niuzi.config
+package net.realmidc.niuzi
 
 import net.mamoe.mirai.console.data.AutoSavePluginConfig
 import net.mamoe.mirai.console.data.value
@@ -7,7 +7,7 @@ import net.mamoe.mirai.console.data.value
  * @author Ting
  * @date 2022/2/17 3:25 PM
  */
-object Settings : AutoSavePluginConfig("settings") {
+object ConfigReader : AutoSavePluginConfig("settings") {
 
     val firstEnable: Boolean by value(true)
     val pkCd: Int by value(3600)
@@ -16,7 +16,4 @@ object Settings : AutoSavePluginConfig("settings") {
     val databaseName: String by value("laoshu")
     val databaseUser: String by value("laoshu")
     val databasePassword: String by value("password")
-    val cumEnable: Boolean by value(false)
-    val doiCd: Int by value(3600)
-
 }

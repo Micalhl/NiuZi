@@ -6,7 +6,7 @@ import net.mamoe.mirai.contact.getMember
 import net.mamoe.mirai.message.data.at
 import net.realmidc.niuzi.command.SubCommand
 import net.realmidc.niuzi.data.TempStorage
-import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.data.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 
 class LeaveCommand : SubCommand {
@@ -24,10 +24,6 @@ class LeaveCommand : SubCommand {
         }
         val target = Dao.getLover(sender.id)
         TempStorage.leavedata[sender.id] = target
-        group.sendLang("Lover.Leave.Request.Send") {
-            it?.replace("{0}", group.getMember(target)!!.at().getDisplay(group))
-                ?.replace("{1}", sender.at().getDisplay(group))
-        }
+        group.sendLang("Lover.Leave.Request.Send", group.getMember(target)!!.at().getDisplay(group), sender.at().getDisplay(group))
     }
-
 }

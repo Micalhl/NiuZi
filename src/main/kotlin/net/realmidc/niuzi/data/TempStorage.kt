@@ -11,5 +11,4 @@ object TempStorage {
     val lovedata = hashMapOf<Long, Long>()
 
     val leavedata = hashMapOf<Long, Long>()
-
 }

@@ -7,7 +7,7 @@ import net.mamoe.mirai.contact.nameCardOrNick
 import net.mamoe.mirai.message.data.ForwardMessage
 import net.mamoe.mirai.message.data.PlainText
 import net.realmidc.niuzi.command.SubCommand
-import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.data.sql.Dao
 
 /**
  * NiuZi
@@ -50,11 +50,11 @@ class TopCommand : SubCommand {
             )
         }
         val forwardMessage = ForwardMessage(
-            brief = "本群牛子排行榜",
-            preview = listOf("原来是本群的牛子排行榜", "谁这么牛逼排第一个呢?"),
-            source = "牛子排行",
-            summary = "快打开吧",
-            title = "猜猜看是什么?",
+            brief = "[聊天记录]",
+            preview = listOf("pitch:你总是被骗", "pitch:你总是不信我", "pitch:[图片]", "pitch:我们还是分手吧"),
+            source = "聊天记录",
+            summary = "查看23条转发消息",
+            title = "嘿鹰和pitch的聊天记录",
             nodeList = nodeList
         )
         group.sendMessage(forwardMessage)

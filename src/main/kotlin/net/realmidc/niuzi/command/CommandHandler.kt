@@ -1,6 +1,5 @@
 package net.realmidc.niuzi.command
 
-import net.mamoe.mirai.console.command.CommandSender.Companion.asCommandSender
 import net.mamoe.mirai.console.command.CommandSender.Companion.asMemberCommandSender
 import net.mamoe.mirai.event.globalEventChannel
 import net.mamoe.mirai.event.subscribeGroupMessages
@@ -14,10 +13,10 @@ object CommandHandler {
     private val commands = hashMapOf<String, SubCommand>()
 
     fun init() {
+        registerCommands("变女性", ChangeToWomanCommand())
         registerCommands("领养牛子", GetCommand())
         registerCommands("我的牛子", StatusCommand())
         registerCommands("改牛子名", NameCommand())
-        // registerCommands("爽一下", CumCommand())
         registerCommands("比划比划", PKCommand())
         registerCommands("管理命令", AdminCommand())
         registerCommands("我的对象", LoverCommand())
@@ -26,6 +25,7 @@ object CommandHandler {
         registerCommands("处理请求", RequestCommand())
         registerCommands("我要分手", LeaveCommand())
         registerCommands("群牛子排行", TopCommand())
+        registerCommands("牛子榜", TopCommand())
 
         PluginMain.globalEventChannel().subscribeGroupMessages {
             startsWith("", removePrefix = true) {
@@ -41,11 +41,7 @@ object CommandHandler {
                                 return@forEach
                             }
                         }
-                        builder.append(Locale.getLang("CommandHelper") { str ->
-                            str?.replace("{0}", name)
-                                ?.replace("{1}", executor.usage() ?: "")
-                                ?.replace("{2}", executor.describe() ?: "")
-                        } + "\n")
+                        builder.append(Locale.getLang("CommandHelper", name, executor.usage() ?: "", executor.describe() ?: "") + "\n")
                     }
                     group.sendMessage(builder.toString())
                 }
@@ -61,5 +57,4 @@ object CommandHandler {
         }
         commands[name] = executor
     }
-
 }

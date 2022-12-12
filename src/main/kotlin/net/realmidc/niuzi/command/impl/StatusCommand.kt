@@ -4,7 +4,7 @@ import net.mamoe.mirai.contact.Group
 import net.mamoe.mirai.contact.Member
 import net.mamoe.mirai.contact.nameCardOrNick
 import net.realmidc.niuzi.command.SubCommand
-import net.realmidc.niuzi.sql.Dao
+import net.realmidc.niuzi.data.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 
 class StatusCommand : SubCommand {
@@ -26,14 +26,7 @@ class StatusCommand : SubCommand {
                 group.sendLang("Status.NoNiuZi")
                 return
             }
-            group.sendLang("Status.Status") {
-                it?.replace("{0}", member.nameCardOrNick)
-                    ?.replace("{1}", member.id.toString())
-                    ?.replace("{2}", niuzi.name)
-                    ?.replace("{3}", niuzi.sex.toChinese())
-                    ?.replace("{4}", niuzi.length.toString())
-            }
+            group.sendLang("Status.Status", member.nameCardOrNick, member.id, niuzi.name, niuzi.sex.toChinese(), niuzi.length)
         }
     }
-
 }
