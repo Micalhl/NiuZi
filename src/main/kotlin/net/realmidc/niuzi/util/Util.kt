@@ -8,6 +8,7 @@ import net.realmidc.niuzi.entity.NiuZi
 import net.realmidc.niuzi.data.sql.Dao
 import net.realmidc.niuzi.util.Locale.sendLang
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
 
 fun randomDouble(nextInt: Int): Double = Random().nextDouble() + Random().nextInt(nextInt)
 
@@ -17,6 +18,8 @@ suspend fun checkNumber(group: Group, input: String): Boolean {
         true
     } catch (e: NumberFormatException) {
         group.sendLang("NumberError")
+        Random().nextGaussian()
+        ThreadLocalRandom.current().nextInt()
         false
     }
 }

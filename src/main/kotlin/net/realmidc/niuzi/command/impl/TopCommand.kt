@@ -51,10 +51,10 @@ class TopCommand : SubCommand {
         }
         val forwardMessage = ForwardMessage(
             brief = "[聊天记录]",
-            preview = listOf("pitch:你总是被骗", "pitch:你总是不信我", "pitch:[图片]", "pitch:我们还是分手吧"),
+            preview = listOf("木子:我要和群主谈恋爱", "绕道走:畜生,我才13岁啊", "木子:我不管,你130岁我也要和你谈", "绕道走:6"),
             source = "聊天记录",
-            summary = "查看23条转发消息",
-            title = "嘿鹰和pitch的聊天记录",
+            summary = "查看7条转发消息",
+            title = "群聊的聊天记录",
             nodeList = nodeList
         )
         group.sendMessage(forwardMessage)
