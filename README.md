@@ -1,4 +1,19 @@
-# NiuZi
-代码上传备份。
+# Building
 
-写的有点垃圾。
+* [Gradle](https://gradle.org/) - Dependency Management
+
+The GradleWrapper in included in this project.
+
+**Windows:**
+
+```
+gradlew.bat clean build
+```
+
+**macOS/Linux:**
+
+```
+./gradlew clean build
+```
+
+Build artifacts should be found in `./build/libs` folder.
