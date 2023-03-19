@@ -3,6 +3,7 @@ package net.realmidc.niuzi
 import net.mamoe.mirai.console.extension.PluginComponentStorage
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescription
 import net.mamoe.mirai.console.plugin.jvm.KotlinPlugin
+import net.realmidc.niuzi.util.sendLang
 import taboolib.common.TabooLibCommon
 import taboolib.common.platform.function.info
 import taboolib.platform.AppIO
@@ -34,5 +35,6 @@ object NiuZi : KotlinPlugin(
     override fun onEnable() {
         info("Successfully running ExamplePlugin!")
         info(ConfigReader.config.getString("test"))
+        sendLang("test", "运行在 Mirai 上!")
     }
 }

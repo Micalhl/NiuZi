@@ -2,6 +2,7 @@ package net.realmidc.niuzi
 
 import taboolib.library.configuration.ConfigurationSection
 import taboolib.module.configuration.Config
+import taboolib.module.configuration.ConfigNode
 import taboolib.module.configuration.Configuration
 
 /**
@@ -16,6 +17,9 @@ object ConfigReader {
     @Config(autoReload = true)
     lateinit var config: Configuration
         private set
+
+    @ConfigNode
+    var language = "zh_CN"
 
     val database: ConfigurationSection?
         get() = config.getConfigurationSection("database")
