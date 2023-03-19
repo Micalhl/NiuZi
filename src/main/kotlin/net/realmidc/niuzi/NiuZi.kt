@@ -33,5 +33,6 @@ object NiuZi : KotlinPlugin(
 
     override fun onEnable() {
         info("Successfully running ExamplePlugin!")
+        info(ConfigReader.config.getString("test"))
     }
 }
